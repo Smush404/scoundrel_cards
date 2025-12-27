@@ -5,11 +5,11 @@
 
 #define HP 20
 #define MAX_NUM_CARDS 54
+
 typedef struct{
 char type;
 int value;
 } Card;
-
 
 /*
 rules
@@ -34,16 +34,18 @@ void create_deck(){
   int count = 0;
   char type[] = {'D', 'C', 'S', 'H'};
   int number[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
-
-  for(int i = 0; i < MAX_NUM_CARDS; i++){
+  
+  //mallocs for each card
+  for(int i = 0; i < MAX_NUM_CARDS; i++){         //Can optimize this somehow???
     deck[i] = malloc(sizeof(Card));
   }
 
-  //fill template deck
+  //fill deck
   for (int i = 0; i < 4; i++)
   {
     for (int j = 0; j < 13; j++)
     {
+      //deck[count] = malloc(sizeof(Card));
       deck[count]->type = type[i];
       deck[count]->value = number[j];
       //printf("i:%d j:%d count:%d %c%d \n", i, j, count, deck[count]->type, deck[count]->value);
@@ -56,32 +58,39 @@ void create_deck(){
   deck[count]->type = 'J';
 
   //DEBUG
-  printf("OG deck\n");
-  for (int i = 0; i < MAX_NUM_CARDS; i++)
-  {
-    printf("%c%d ", deck[i]->type, deck[i]->value);
-  }  
+  // printf("OG deck\n");
+  // for (int i = 0; i < MAX_NUM_CARDS; i++)
+  // {
+  //   printf("%c%d ", deck[i]->type, deck[i]->value);
+  // }  
 }
 
-
-//main shuffler of deck
-void shuffle_main(Card *a[], Card *b[]){
+//shuffles cards in the deck like a real life shuffle through splitting and combining the deck
+void shuffle(){
+  Card *deckL[MAX_NUM_CARDS/2];
+  Card *deckR[MAX_NUM_CARDS/2];
   int acount = 0, bcount = 0;
 
-  //putting splits together
+  //splits the deck into two
+  for(int i = 0; i < MAX_NUM_CARDS/2; i++){
+    deckL[i] = deck[i];
+    deckR[i] = deck[i + MAX_NUM_CARDS/2];
+  }
+
+  //intertwining splits together
   for(int i = 0; i < MAX_NUM_CARDS; i++){
     if(i % 2){
-      deck[i] = a[acount++];
+      deck[i] = deckL[acount++];
     }
     else{
-      deck[i] = b[bcount++];
+      deck[i] = deckR[bcount++];
     }
   }
 
-  //random swap zone 
+  //random swap zone (add rng)
   for(int i = 0; i < 14; i++){
     int ranint = random_number(), ranint2 = random_number();
-    printf("\n%d %d ", ranint, ranint2); 
+    //printf("\n%d %d ", ranint, ranint2); 
     Card *tmp = deck[ranint];
     deck[ranint] = deck[ranint2];
     deck[ranint2] = tmp;
@@ -96,20 +105,8 @@ void shuffle_main(Card *a[], Card *b[]){
   //     break;
   //   }
   // }
-}
 
-//shuffles cards in the deck
-void shuffle(){
-  Card *deckL[MAX_NUM_CARDS/2];
-  Card *deckR[MAX_NUM_CARDS/2];
-
-  for(int i = 0; i < MAX_NUM_CARDS/2; i++){
-    deckL[i] = deck[i];
-    deckR[i] = deck[i + MAX_NUM_CARDS/2];
-  }
-  
-  shuffle_main(deckL, deckR);
-
+  //DEBUG
   // printf("\nshufffle deck\n");
   // for (int i = 0; i < MAX_NUM_CARDS; i++)
   // {
@@ -117,18 +114,31 @@ void shuffle(){
   // }  
 }
 
+//clean up
+void shutdown(){
+  for (int i = 0; i < MAX_NUM_CARDS; i++)
+  {
+    free(deck[i]);
+  }
+  *deck = NULL;
+}
+
 int main(){
   srand(time(NULL));
+  
   create_deck();
-
-  printf("\nshufffle deck\n");
-  for(int i = 0; i <= 1000; i++){
-    printf("Round %d\n", i);
+  //random times shuffled
+  // printf("\nshufffle deck\n");
+  for(int i = 0; i <= rand(); i++){
+    // printf("Round %d\n", i);
     shuffle();
-    for (int i = 0; i < MAX_NUM_CARDS; i++)
-    {
-      printf("%c%d ", deck[i]->type, deck[i]->value);
-    }  
-    printf("\n");
+    // for (int i = 0; i < MAX_NUM_CARDS; i++)
+    // {
+    //   printf("%c%d ", deck[i]->type, deck[i]->value);
+    // }  
+    // printf("\n");
   }
+  
+  //gameloop();
+  shutdown();
 }
