@@ -1,0 +1,4 @@
+- Make gameplay loop
+- look into ncurses to make it look pretty
+- OPTmise if needed
+- make playdate version and release?

@@ -12,7 +12,7 @@ int value;
 } Card;
 
 /*
-rules
+varents
   - red face cards are companions
     - https://www.reddit.com/r/cardgames/comments/1isxsif/scoundrel_additions_2/
   - jokers are NPCS 
@@ -36,7 +36,7 @@ void create_deck(){
   int number[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14};
   
   //mallocs for each card
-  for(int i = 0; i < MAX_NUM_CARDS; i++){         //Can optimize this somehow???
+  for(int i = 0; i < MAX_NUM_CARDS; i++){         //OPT: Can optimize this somehow???
     deck[i] = malloc(sizeof(Card));
   }
 
@@ -77,7 +77,7 @@ void shuffle(){
     deckR[i] = deck[i + MAX_NUM_CARDS/2];
   }
 
-  //intertwining splits together
+  //intertwining splits together like irl
   for(int i = 0; i < MAX_NUM_CARDS; i++){
     if(i % 2){
       deck[i] = deckL[acount++];
@@ -114,6 +114,12 @@ void shuffle(){
   // }  
 }
 
+
+//gameplay loop
+gameloop(){
+
+}
+
 //clean up
 void shutdown(){
   for (int i = 0; i < MAX_NUM_CARDS; i++)
@@ -123,13 +129,10 @@ void shutdown(){
   *deck = NULL;
 }
 
-int main(){
-  srand(time(NULL));
-  
-  create_deck();
-  //random times shuffled
-  // printf("\nshufffle deck\n");
-  for(int i = 0; i <= rand(); i++){
+//shuffles the deck a random number of times 
+void random_shuffle(){ 
+    // printf("\nshufffle deck\n");
+  for(int i = 0; i <= rand(); i++){//can be a massive number of shuffles - OPT: maybe just limit to 100 - 1,000
     // printf("Round %d\n", i);
     shuffle();
     // for (int i = 0; i < MAX_NUM_CARDS; i++)
@@ -138,7 +141,14 @@ int main(){
     // }  
     // printf("\n");
   }
+}
+
+int main(){
+  srand(time(NULL));
   
-  //gameloop();
+  create_deck();
+  random_shuffle();
+  
+  gameloop();
   shutdown();
 }
