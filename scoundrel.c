@@ -38,17 +38,28 @@ void create_deck(){
   deck[count]->type = 'J';
 
   //DEBUG
-  // for (int i = 0; i < MAX_NUM_CARDS; i++)
-  // {
-  //   printf("%c%d, ", deck[i]->type, deck[i]->value);
-  // }  
+  printf("OG deck\n");
+  for (int i = 0; i < MAX_NUM_CARDS; i++)
+  {
+    printf("%c%d ", deck[i]->type, deck[i]->value);
+  }  
 }
 
 
-//mian shuffler of deck
-Card * shuffle_main(Card *a, Card *b){
+//main shuffler of deck
+void shuffle_main(Card *tmp[], Card *a[], Card *b[]){
+  int acount = 0, bcount = 0;
 
-  return NULL;
+  for(int i = 0; i < MAX_NUM_CARDS; i++){
+    if(i % 2){
+      tmp[i] = a[acount++];
+    }
+    else{
+      tmp[i] = b[bcount++];
+    }
+  }
+
+  
 }
 
 //shuffles cards in the deck
@@ -60,10 +71,19 @@ void shuffle(){
     deckL[i] = deck[i];
     deckR[i] = deck[i + MAX_NUM_CARDS/2];
   }
+  
+  shuffle_main(deck, deckL, deckR);
 
-  Card *tmp = shuffle_main(deckL, deckR);
+  printf("\nshufffle deck\n");
+  for (int i = 0; i < MAX_NUM_CARDS; i++)
+  {
+    printf("%c%d ", deck[i]->type, deck[i]->value);
+  }  
 }
+
 int main(){
   create_deck();
+  shuffle();
+  shuffle();
   shuffle();
 }
