@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define HP 20
 #define MAX_NUM_CARDS 54
@@ -9,7 +10,24 @@ char type;
 int value;
 } Card;
 
+
+/*
+rules
+  - red face cards are companions
+    - https://www.reddit.com/r/cardgames/comments/1isxsif/scoundrel_additions_2/
+  - jokers are NPCS 
+    - random each joker you hit
+    - some shops
+    - some nice npc need help
+    - mean npc trying to scam you???
+*/
+
 Card *deck[MAX_NUM_CARDS];
+
+int random_number(){
+  int max = 53, min = 0;
+  return (rand() % (max - min + 1)) + min;
+}
 
 //creates template deck
 void create_deck(){
@@ -47,19 +65,37 @@ void create_deck(){
 
 
 //main shuffler of deck
-void shuffle_main(Card *tmp[], Card *a[], Card *b[]){
+void shuffle_main(Card *a[], Card *b[]){
   int acount = 0, bcount = 0;
 
+  //putting splits together
   for(int i = 0; i < MAX_NUM_CARDS; i++){
     if(i % 2){
-      tmp[i] = a[acount++];
+      deck[i] = a[acount++];
     }
     else{
-      tmp[i] = b[bcount++];
+      deck[i] = b[bcount++];
     }
   }
 
-  
+  //random swap zone 
+  for(int i = 0; i < 14; i++){
+    int ranint = random_number(), ranint2 = random_number();
+    printf("\n%d %d ", ranint, ranint2); 
+    Card *tmp = deck[ranint];
+    deck[ranint] = deck[ranint2];
+    deck[ranint2] = tmp;
+  }
+
+  // //split jokers //BROKEN
+  // for(int i = 1; i < MAX_NUM_CARDS; i++){
+  //   if(deck[i]->type=='J' && deck[i - 1]->type== 'J'){
+  //     int ranint = random_number();
+  //     Card *tmp = deck[ranint];
+  //     deck[i] = tmp;
+  //     break;
+  //   }
+  // }
 }
 
 //shuffles cards in the deck
@@ -72,18 +108,27 @@ void shuffle(){
     deckR[i] = deck[i + MAX_NUM_CARDS/2];
   }
   
-  shuffle_main(deck, deckL, deckR);
+  shuffle_main(deckL, deckR);
 
-  printf("\nshufffle deck\n");
-  for (int i = 0; i < MAX_NUM_CARDS; i++)
-  {
-    printf("%c%d ", deck[i]->type, deck[i]->value);
-  }  
+  // printf("\nshufffle deck\n");
+  // for (int i = 0; i < MAX_NUM_CARDS; i++)
+  // {
+  //   printf("%c%d ", deck[i]->type, deck[i]->value);
+  // }  
 }
 
 int main(){
+  srand(time(NULL));
   create_deck();
-  shuffle();
-  shuffle();
-  shuffle();
+
+  printf("\nshufffle deck\n");
+  for(int i = 0; i <= 1000; i++){
+    printf("Round %d\n", i);
+    shuffle();
+    for (int i = 0; i < MAX_NUM_CARDS; i++)
+    {
+      printf("%c%d ", deck[i]->type, deck[i]->value);
+    }  
+    printf("\n");
+  }
 }
