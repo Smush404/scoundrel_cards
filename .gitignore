@@ -1,55 +1,96 @@
-# Prerequisites
-*.d
-
-# Object files
+# =========================
+# Compiled binaries
+# =========================
 *.o
-*.ko
 *.obj
 *.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
 *.exe
 *.out
 *.app
-*.i*86
-*.x86_64
-*.hex
 
-# Debug files
+# =========================
+# Libraries
+# =========================
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+
+# =========================
+# Build directories
+# =========================
+build/
+bin/
+dist/
+out/
+cmake-build-*/
+
+# =========================
+# Debugging / profiling
+# =========================
 *.dSYM/
 *.su
 *.idb
 *.pdb
+*.gcda
+*.gcno
+*.gcov
+*.prof
+gmon.out
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
+# =========================
+# Dependency files
+# =========================
+*.d
 
-# debug information files
-*.dwo
+# =========================
+# CMake
+# =========================
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# =========================
+# Autotools
+# =========================
+autom4te.cache/
+aclocal.m4
+compile
+config.h
+config.log
+config.status
+configure
+depcomp
+install-sh
+missing
+stamp-h1
+
+# =========================
+# Editors
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.cproject
+.settings/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =========================
+# OTHER
+# =========================
+
+cardgame
+error.txt
