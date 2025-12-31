@@ -11,6 +11,11 @@ char type;
 int value;
 } Card;
 
+typedef struct{
+Card wep, last_killed, healing;
+int hp;
+} Player;
+
 /*
 varents
   - red face cards are companions
@@ -117,7 +122,31 @@ void shuffle(){
 
 //gameplay loop
 gameloop(){
+  Player p;
+  p.hp = HP;
+  Card c1,c2,c3,c4;
+  int i = 0, input;
 
+  printf("=============================");
+  printf("%30s","Welcome to Scoundrel");
+  printf("=============================");
+
+  c1 = *deck[i++];
+  c2 = *deck[i++];
+  c3 = *deck[i++];
+  c4 = *deck[i++];
+
+  while(i<MAX_NUM_CARDS){
+    printf("Card (1): %s%d Card (2): %s%d Card (3): %s%d Card (4): %s%d \n", c1.type, c1.value, c2.type, c2.value, c3.type, c3.value, c4.type, c4.value);
+    printf("Pick a Card: ");
+    scanf("%d", &input);
+
+    for(int j = 0; j < 4; j++){
+    printf("Card (1): %s%d Card (2): %s%d Card (3): %s%d Card (4): %s%d \n", c1.type, c1.value, c2.type, c2.value, c3.type, c3.value, c4.type, c4.value);
+    printf("Pick a Card: ");
+    scanf("%d", &input);
+    }
+  }
 }
 
 //clean up
